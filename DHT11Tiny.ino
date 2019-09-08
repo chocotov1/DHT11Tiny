@@ -17,7 +17,7 @@
 
 byte dht11_pin = 2;
 
-volatile uint16_t ovf_counter;
+//volatile uint16_t ovf_counter;
 
 #ifdef DEBUG
 // only for debugging: DHT11: 40 data bits + leading bits / noise
@@ -34,17 +34,14 @@ const byte dht11_bytes = 5;
 volatile byte dht11_data[dht11_bytes];
 
 void setup(){
-  // it seems to work without any form of pullup (4 pin DHT11 version)
-  //pinMode(dht11_pin, INPUT);
-  // use INPUT_PULLUP nevertheless
-  pinMode(dht11_pin, INPUT_PULLUP);
+  set_dht11_pin_input();
 
   GIMSK = 1<<INT0;                 // external interrupt (pin 5): INT0_vect
   //MCUCR = 1<<ISC00;              // any change
   MCUCR = (1<<ISC01) | (1<<ISC00); // only rising
   //MCUCR = 1<<ISC01;              // only falling
 
-  noInterrupts();
+//  noInterrupts();
   TCCR1 = 0;  // reset TCCR1-Register
 
   //TCCR1 &= 0xF0; // turn off timer clock (not tested)
@@ -56,17 +53,27 @@ void setup(){
   //PLLCSR |= 1<<LSM;               // low speed mode: 32 mhz
   //while(!(PLLCSR & (1<<PLOCK)));  // wait for stable PLL clock
 
-  TIMSK |= (1<<TOIE1);  // overflow: TIMER1_OVF_vect: overflowing of the timer indicates that no new data is receiced on the pin 
-  interrupts();
+  //TIMSK |= (1<<TOIE1);  // overflow: TIMER1_OVF_vect: overflowing of the timer indicates that no new data is receiced on the pin 
+//  interrupts();
 
   Serial.begin(9600);
   Serial.println("DHT11 attiny interrupt version");
 }
 
-// timer overflow
-ISR(TIMER1_OVF_vect) {
-  ovf_counter++;
+void set_dht11_pin_input(){
+  // it seems to work without any form of pullup (4 pin DHT11 version)
+  //pinMode(dht11_pin, INPUT);
+  // use INPUT_PULLUP nevertheless
+  //pinMode(dht11_pin, INPUT_PULLUP);
+  DDRB &= ~(1<<dht11_pin);
+  //digitalWrite(dht11_pin, HIGH);
+  PORTB |= 1<<dht11_pin;
 }
+
+// timer overflow
+//ISR(TIMER1_OVF_vect) {
+//  ovf_counter++;
+//}
 
 ISR(INT0_vect) {
    // shift in the bit based on the timer value
@@ -80,7 +87,7 @@ ISR(INT0_vect) {
 }
 
 bool dht11_get_reading(){
-   Serial.print("reading dht11.. ");
+   //Serial.print("reading dht11.. ");
 
    dht11_start();
 
@@ -88,8 +95,9 @@ bool dht11_get_reading(){
       current_bit = 0;
    #endif DEBUG
    
-   ovf_counter = 0;
-   while (ovf_counter < 50);
+   //ovf_counter = 0;
+   //while (ovf_counter < 50);
+   delay(4);
 
    // data should now be in place
 
@@ -136,13 +144,16 @@ bool shift_in_dht11_bit(byte pulse_length){
 
 void dht11_start(){
    // wake up dht11: pull low 18 ms 
-   pinMode(dht11_pin, OUTPUT);
-   digitalWrite(dht11_pin, 0);
+   //pinMode(dht11_pin, OUTPUT);
+   DDRB |= 1<<dht11_pin;
+   //digitalWrite(dht11_pin, 0);
+   PORTB &= ~(1<<dht11_pin);
+   
    delay(18);
    // signal rises quicker by driving high, but it also works without doing this:
    //digitalWrite(dht11_pin, 1); 
    
-   pinMode(dht11_pin, INPUT_PULLUP);  
+   set_dht11_pin_input();
 }
 
 #ifdef DEBUG
@@ -169,8 +180,8 @@ void print_debugging_info(){
    Serial.print("isr_counter: ");
    Serial.println(isr_counter);
    isr_counter = 0;
-   Serial.print("ovf_counter: ");
-   Serial.println(ovf_counter);
+   //Serial.print("ovf_counter: ");
+   //Serial.println(ovf_counter);
    Serial.print("shifted_bits: ");
    Serial.println(shifted_bits);
    shifted_bits = 0;

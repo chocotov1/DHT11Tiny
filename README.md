@@ -10,9 +10,9 @@ I did implemented some new ideas here though:
 - Read in all the DHT11 bits and shift them in one by one. I reckoned that it saves a few bytes of flash because i wouldn't need to check the start long sequence.
 - This version uses external interrupt (PCINT0) only on the rising edge instead of tracking the pin state.
 
-## No space saving
+## ~~No space saving~~
 
-Sadly, there didn't seem to be any space savings compared to my first version.
+~~Sadly, there didn't seem to be any space savings compared to my first version.~~
 
 DHT11Light:
 ```
@@ -24,4 +24,13 @@ DHT11Tiny
 ```
 Sketch uses 1034 bytes (12%) of program storage space. Maximum is 8192 bytes.
 Global variables use 16 bytes (3%) of dynamic memory, leaving 496 bytes for local variables. Maximum is 512 bytes.
+```
+
+## Space saving after all
+
+Giving up TIMER1_OVF_vect saves some space. I now added a delay of 4 ms instead which should be enough. After also removing some unneeded statements and replacing the pinMode() and digitalWrites() calls, it's now truely a bit more tiny than before :)
+
+```
+Sketch uses 644 bytes (7%) of program storage space. Maximum is 8192 bytes.
+Global variables use 14 bytes (2%) of dynamic memory, leaving 498 bytes for local variables. Maximum is 512 bytes.
 ```
