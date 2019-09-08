@@ -87,7 +87,7 @@ ISR(INT0_vect) {
 }
 
 bool dht11_get_reading(){
-   //Serial.print("reading dht11.. ");
+   Serial.print("reading dht11.. ");
 
    dht11_start();
 
