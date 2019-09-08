@@ -1,9 +1,9 @@
 # DHT11Tiny
 
-ATtiny variant of DHT11 sensor reading of  [DHT11Light](https://github.com/chocotov1/DHT11Light). The ATtiny specific part lies in the use of exteral interrupt and timer1 settings. Can be ported to UNO.
+ATtiny variant of [DHT11Light](https://github.com/chocotov1/DHT11Light). The ATtiny specific part lies in the use of exteral interrupt and timer1 settings. Can be ported to UNO.
 
 ## 1 MHz doesn't work
-This version began in an effort to get a good reading with the chip running at 1 HZz. After trying a lot of different approaches, it seems that it's simply not possible. I added a remark in the code.
+This version began in an effort to get a good reading with the chip running at 1 MHz. After trying a lot of different approaches, it seems that it's simply not possible. I added a remark in the code.
 
 ## New ideas
 I did implemented some new ideas here though:
