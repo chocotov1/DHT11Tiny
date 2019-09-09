@@ -186,6 +186,10 @@ void print_debugging_info(){
    Serial.println(shifted_bits);
    shifted_bits = 0;
 
+   Serial.print("humidity: ");
+   Serial.print(dht11_data[0]);
+   Serial.print(", temperatur: ");
+   Serial.println(dht11_data[2]);    
    Serial.print("dht11_data[1]: ");
    Serial.println(dht11_data[1]);
    Serial.print("dht11_data[3]: ");
