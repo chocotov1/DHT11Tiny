@@ -97,7 +97,7 @@ bool dht11_get_reading(){
    
    //ovf_counter = 0;
    //while (ovf_counter < 50);
-   delay(4);
+   delay(5);
 
    // data should now be in place
 
