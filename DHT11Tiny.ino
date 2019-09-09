@@ -36,7 +36,7 @@ volatile byte dht11_data[dht11_bytes];
 void setup(){
   set_dht11_pin_input();
 
-  GIMSK = 1<<INT0;                 // external interrupt (pin 5): INT0_vect
+  GIMSK = 1<<INT0;                 // external interrupt (pin 7): INT0_vect
   //MCUCR = 1<<ISC00;              // any change
   MCUCR = (1<<ISC01) | (1<<ISC00); // only rising
   //MCUCR = 1<<ISC01;              // only falling

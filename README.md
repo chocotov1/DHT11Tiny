@@ -8,7 +8,7 @@ This version began in an effort to get a good reading with the chip running at 1
 ## New ideas
 I did implemented some new ideas here though:
 - Read in all the DHT11 bits and shift them in one by one. I reckoned that it saves a few bytes of flash because i wouldn't need to check the start long sequence.
-- This version uses external interrupt (PCINT0) only on the rising edge instead of tracking the pin state.
+- This version uses external interrupt (INT0) only on the rising edge instead of tracking the pin state.
 
 ## ~~No space saving~~
 
