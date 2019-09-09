@@ -28,7 +28,7 @@ Global variables use 16 bytes (3%) of dynamic memory, leaving 496 bytes for loca
 
 ## Space saving after all
 
-Giving up TIMER1_OVF_vect saves some space. I now added a delay of 5 ms instead which should be enough. After also removing some unneeded statements and replacing the pinMode() and digitalWrites() calls, it's now truely a bit more tiny than before :)
+Giving up TIMER1_OVF_vect saves some space. I now added a delay of 5 ms instead which should be enough. After also removing some unneeded statements and replacing the pinMode() and digitalWrite() calls, it's now truely a bit more tiny than before :)
 
 ```
 Sketch uses 644 bytes (7%) of program storage space. Maximum is 8192 bytes.

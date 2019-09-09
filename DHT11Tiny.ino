@@ -118,7 +118,7 @@ bool shift_in_dht11_bit(byte pulse_length){
   
    bool new_bit = 0;
 
-   // observed during testing at 8 mhz, 16 prescaler: long pulse: arround 54, short pulse arround 30
+   // observed during testing at 8 mhz, 16 prescaler: long pulse: around 54, short pulse around 30
    if (pulse_length > 45){
       new_bit = 1;
    }
