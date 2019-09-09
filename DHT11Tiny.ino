@@ -41,7 +41,7 @@ void setup(){
   MCUCR = (1<<ISC01) | (1<<ISC00); // only rising
   //MCUCR = 1<<ISC01;              // only falling
 
-//  noInterrupts();
+  //noInterrupts();
   TCCR1 = 0;  // reset TCCR1-Register
 
   //TCCR1 &= 0xF0; // turn off timer clock (not tested)
@@ -54,7 +54,7 @@ void setup(){
   //while(!(PLLCSR & (1<<PLOCK)));  // wait for stable PLL clock
 
   //TIMSK |= (1<<TOIE1);  // overflow: TIMER1_OVF_vect: overflowing of the timer indicates that no new data is receiced on the pin 
-//  interrupts();
+  //interrupts();
 
   Serial.begin(9600);
   Serial.println("DHT11 attiny interrupt version");
@@ -117,8 +117,9 @@ bool shift_in_dht11_bit(byte pulse_length){
    #endif
   
    bool new_bit = 0;
-   
-   if (pulse_length > 50){
+
+   // observed during testing at 8 mhz, 16 prescaler: long pulse: arround 54, short pulse arround 30
+   if (pulse_length > 45){
       new_bit = 1;
    }
 
