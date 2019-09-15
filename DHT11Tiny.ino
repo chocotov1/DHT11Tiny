@@ -46,7 +46,10 @@ void setup(){
 
   //TCCR1 &= 0xF0; // turn off timer clock (not tested)
   // see datasheet for all prescaler settings
+  //TCCR1 |= (1<<CS12) | (1<<CS11); // prescaler: 32
   TCCR1 |= (1<<CS12) | (1<<CS10); // prescaler: 16
+  //TCCR1 |= (1<<CS12);             // prescaler: 8
+
 
   // external 64 mhz timer clock: only tested it, it's not needed here
   //PLLCSR = 1<<PCKE | 1<<PLLE; 
@@ -166,6 +169,32 @@ void print_pulses(){
       Serial.println();
    }
 }
+
+void print_pulses_deluxe(){
+   for (byte i = 0; i < dht11_pulse_bits; i++){
+      byte difference = 0;
+
+      if (i){         
+         byte previous = pulses[i-1];
+         if (pulses[i] < previous){
+            difference = pulses[i] + 256 - previous;
+         } else {
+            difference = pulses[i] - previous;
+         }
+      } else {
+         difference = pulses[i];
+      }
+
+      Serial.print(i+1);
+      Serial.print(": ");
+      Serial.print(difference);
+      Serial.print(" (");
+      Serial.print(pulses[i]);
+      Serial.print(")");
+      Serial.println();
+   }
+}
+
 #endif
 
 #ifdef DEBUG
@@ -200,6 +229,7 @@ void print_debugging_info(){
    Serial.println(" (checksum)");
 
    print_pulses();
+   //print_pulses_deluxe();
 
    reset_pulses();
 }
